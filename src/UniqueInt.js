@@ -1,15 +1,22 @@
 const fs = require("fs");
+const path = require("path");
 
 class UniqueInt {
   constructor() {
-    this.seenNumbers = new Array(2047).fill(false); // Boolean array to track integers in the range [-1023, 1023]
+    this.seenNumbers = new Array(2047).fill(false);
+
+    // Create the output directory if it doesn't exist
+    const outputDir = path.resolve(__dirname, "../sample_results");
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
   }
 
   // Main function to process input and output files
   processFile(inputFilePath, outputFilePath) {
     try {
       const inputData = fs.readFileSync(inputFilePath, "utf-8");
-      const lines = inputData.split("\n"); // String array
+      const lines = inputData.split("\n");
       const uniqueIntegers = [];
 
       lines.forEach((line) => {
@@ -37,8 +44,8 @@ class UniqueInt {
     // Skip empty lines and lines with multiple numbers or non-integer characters
     if (
       trimmedLine === "" ||
-      /\s+/.test(trimmedLine) || // Multiple numbers
-      isNaN(Number(trimmedLine)) // Non-integer
+      /\s+/.test(trimmedLine) ||
+      !/^-?\d+$/.test(trimmedLine)
     ) {
       return null;
     }
@@ -75,10 +82,10 @@ class UniqueInt {
 
   // Function to process multiple files
   processFiles(inputFolderPath, outputFolderPath) {
-    const files = fs.readdirSync(inputFolderPath); // Array of filenames
+    const files = fs.readdirSync(inputFolderPath);
     files.forEach((file) => {
-      const inputFilePath = `${inputFolderPath}/${file}`;
-      const outputFilePath = `${outputFolderPath}/${file}_results.txt`;
+      const inputFilePath = path.join(inputFolderPath, file);
+      const outputFilePath = path.join(outputFolderPath, file);
       this.processFile(inputFilePath, outputFilePath);
     });
   }
@@ -86,4 +93,7 @@ class UniqueInt {
 
 // Input and output folder paths
 const uniqueInt = new UniqueInt();
-uniqueInt.processFiles("./dsa/sample_inputs", "./dsa/sample_outputs");
+uniqueInt.processFiles(
+  path.join(__dirname, "../sample_inputs"),
+  path.join(__dirname, "../sample_results")
+);
