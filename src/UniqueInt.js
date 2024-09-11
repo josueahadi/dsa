@@ -3,8 +3,6 @@ const path = require("path");
 
 class UniqueInt {
   constructor() {
-    this.seenNumbers = new Array(2047).fill(false);
-
     // Create the output directory if it doesn't exist
     const outputDir = path.resolve(__dirname, "../sample_results");
     if (!fs.existsSync(outputDir)) {
@@ -15,6 +13,9 @@ class UniqueInt {
   // Main function to process input and output files
   processFile(inputFilePath, outputFilePath) {
     try {
+      // Reset seenNumbers for each file
+      this.seenNumbers = new Array(2047).fill(false);
+
       const inputData = fs.readFileSync(inputFilePath, "utf-8");
       const lines = inputData.split("\n");
       const uniqueIntegers = [];
@@ -39,18 +40,21 @@ class UniqueInt {
 
   // Function to read and validate each line
   readNextItemFromFile(line) {
+    // Trim whitespace from the beginning and end of the line
     const trimmedLine = line.trim();
 
-    // Skip empty lines and lines with multiple numbers or non-integer characters
-    if (
-      trimmedLine === "" ||
-      /\s+/.test(trimmedLine) ||
-      !/^-?\d+$/.test(trimmedLine)
-    ) {
+    // Skip empty lines
+    if (trimmedLine === "") {
       return null;
     }
 
-    const parsedNumber = parseInt(trimmedLine, 10);
+    // Check if the line contains exactly one integer
+    const match = trimmedLine.match(/^\s*(-?\d+)\s*$/);
+    if (!match) {
+      return null; // Line doesn't contain exactly one integer
+    }
+
+    const parsedNumber = parseInt(match[1], 10);
 
     // Check for valid integer range [-1023, 1023]
     if (parsedNumber >= -1023 && parsedNumber <= 1023) {
