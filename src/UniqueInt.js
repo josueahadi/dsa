@@ -4,7 +4,7 @@ const path = require("path"); //  import the path module -- it helps you manipul
 class UniqueInt {
   constructor() {
     // Create the output directory if it doesn't exist
-    const outputDir = path.resolve(__dirname, "../sample_results");
+    const outputDir = path.resolve(__dirname, "../results");
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
@@ -98,6 +98,6 @@ class UniqueInt {
 // Input and output folder paths
 const uniqueInt = new UniqueInt();
 uniqueInt.processFiles(
-  path.join(__dirname, "../sample_inputs"),
-  path.join(__dirname, "../sample_results")
+  path.join(__dirname, "../inputs"),
+  path.join(__dirname, "../results")
 );

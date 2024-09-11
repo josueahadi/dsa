@@ -7,8 +7,8 @@ This project processes a list of integers from input files and generates result 
 ## Directory Structure
 
 - `/dsa/src`: Contains the source code `UniqueInt.ts`.
-- `/dsa/sample_inputs/`: Contains sample input files.
-- `/dsa/sample_results/`: Contains output result files.
+- `/dsa/inputs/`: Contains input files.
+- `/dsa/results/`: Contains output result files.
 
 ## How to Run the Code
 
@@ -19,8 +19,8 @@ This project processes a list of integers from input files and generates result 
    node UniqueInt.js
    ```
 
-3. Ensure the input files are in the `sample_inputs` directory and named correctly.
-4. The output will be written in the `sample_results` directory.
+3. Ensure the input files are in the `inputs` directory and named correctly.
+4. The output will be written in the `results` directory.
 
 ## Prerequisites
 
