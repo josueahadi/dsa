@@ -1,5 +1,6 @@
 const fs = require("fs"); // import the fs (filesystem) module, which provides functions that allow you to read, write, and manipulate files and directories
 const path = require("path"); //  import the path module -- it helps you manipulate file paths in a cross-platform way (Join paths using path.join, resolve absolute paths using path.resolve, extract file extensions or directory names)
+const { performance } = require("perf_hooks"); // import the performance module from Node.js, which provides a way to measure the performance of your code
 
 class UniqueInt {
   constructor() {
@@ -12,6 +13,9 @@ class UniqueInt {
 
   // Main function to process input and output files
   processFile(inputFilePath, outputFilePath) {
+    const startTime = performance.now(); // Start time for measuring run-time
+    const initialMemory = process.memoryUsage().heapUsed; // Initial memory usage
+
     try {
       // Reset seenNumbers for each file
       this.seenNumbers = new Array(2047).fill(false);
@@ -33,6 +37,18 @@ class UniqueInt {
 
       this.sort(uniqueIntegers); // Sort the unique integers
       this.writeOutputFile(outputFilePath, uniqueIntegers);
+
+      // Measure memory and runtime after processing
+      const finalMemory = process.memoryUsage().heapUsed;
+      const endTime = performance.now();
+
+      // Log memory and time details
+      console.log(`File: ${inputFilePath}`);
+      console.log(`Memory Usage: ${finalMemory - initialMemory} bytes`);
+      console.log(`Time Taken: ${(endTime - startTime).toFixed(2)} ms`);
+      console.log("---------------------------------------------------");
+
+      // Catch and log any errors
     } catch (error) {
       console.error(`Error processing file: ${error.message}`);
     }
