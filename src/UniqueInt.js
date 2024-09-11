@@ -1,16 +1,16 @@
-const fs = require("fs"); // import js lib to handel files in js
-const path = require("path"); // imports js paths (handles The File Path related tasks)
+const fs = require("fs");
 
 class UniqueInt {
-  private seenNumbers: boolean[] = new Array(2047).fill(false); // Boolean array to track integers in the range [-1023, 1023]
+  constructor() {
+    this.seenNumbers = new Array(2047).fill(false); // Boolean array to track integers in the range [-1023, 1023]
+  }
 
   // Main function to process input and output files
-  // Main function to process input and output files
-  processFile(inputFilePath: string, outputFilePath: string): void {
+  processFile(inputFilePath, outputFilePath) {
     try {
       const inputData = fs.readFileSync(inputFilePath, "utf-8");
-      const lines = inputData.split("\n");
-      const uniqueIntegers: number[] = [];
+      const lines = inputData.split("\n"); // String array
+      const uniqueIntegers = [];
 
       lines.forEach((line) => {
         const parsedNumber = this.readNextItemFromFile(line);
@@ -26,23 +26,19 @@ class UniqueInt {
       this.sort(uniqueIntegers); // Sort the unique integers
       this.writeOutputFile(outputFilePath, uniqueIntegers);
     } catch (error) {
-      if (error instanceof Error) {
-        console.error(`Error processing file: ${error.message}`);
-      } else {
-        console.error(`Unknown error occurred: ${error}`);
-      }
+      console.error(`Error processing file: ${error.message}`);
     }
   }
 
   // Function to read and validate each line
-  readNextItemFromFile(line: string): number | null {
+  readNextItemFromFile(line) {
     const trimmedLine = line.trim();
 
     // Skip empty lines and lines with multiple numbers or non-integer characters
     if (
       trimmedLine === "" ||
-      /\s+/.test(trimmedLine) ||
-      isNaN(Number(trimmedLine))
+      /\s+/.test(trimmedLine) || // Multiple numbers
+      isNaN(Number(trimmedLine)) // Non-integer
     ) {
       return null;
     }
@@ -58,7 +54,7 @@ class UniqueInt {
   }
 
   // Manual sorting implementation (Bubble Sort)
-  private sort(arr: number[]): void {
+  sort(arr) {
     for (let i = 0; i < arr.length - 1; i++) {
       for (let j = 0; j < arr.length - i - 1; j++) {
         if (arr[j] > arr[j + 1]) {
@@ -71,34 +67,23 @@ class UniqueInt {
   }
 
   // Function to write the unique sorted integers to the output file
-  private writeOutputFile(
-    outputFilePath: string,
-    uniqueIntegers: number[]
-  ): void {
+  writeOutputFile(outputFilePath, uniqueIntegers) {
     const outputData = uniqueIntegers.join("\n");
     fs.writeFileSync(outputFilePath, outputData, "utf-8");
     console.log(`Results written to ${outputFilePath}`);
   }
 
-  // Function to process all files in the input directory
-  processAllFiles(inputDir: string, outputDir: string): void {
-    const files = fs.readdirSync(inputDir);
-
+  // Function to process multiple files
+  processFiles(inputFolderPath, outputFolderPath) {
+    const files = fs.readdirSync(inputFolderPath); // Array of filenames
     files.forEach((file) => {
-      const inputFilePath = path.join(inputDir, file);
-      const outputFilePath = path.join(outputDir, `${file}_results.txt`);
-      console.log(`Processing file: ${file}`);
-
-      // Reset seenNumbers array for each file
-      this.seenNumbers.fill(false);
-
+      const inputFilePath = `${inputFolderPath}/${file}`;
+      const outputFilePath = `${outputFolderPath}/${file}_results.txt`;
       this.processFile(inputFilePath, outputFilePath);
     });
   }
 }
 
-// Input directory and output directory paths
+// Input and output folder paths
 const uniqueInt = new UniqueInt();
-const inputDir = "/dsa/sample_inputs";
-const outputDir = "/dsa/sample_outputs";
-uniqueInt.processAllFiles(inputDir, outputDir);
+uniqueInt.processFiles("./dsa/sample_inputs", "./dsa/sample_outputs");
