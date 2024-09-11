@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project processes a list of integers from a file and generates a result file containing unique integers sorted in increasing order. The solution was implemented in TypeScript without using standard libraries for sorting or list operations.
+This project processes a list of integers from input files and generates result files containing unique integers sorted in ascending order. The solution is implemented in JavaScript without using standard libraries for sorting or list operations.
 
 ## Directory Structure
 
@@ -16,7 +16,7 @@ This project processes a list of integers from a file and generates a result fil
 2. Run the following command to execute the TypeScript file:
 
    ```bash
-   npx ts-node UniqueInt.ts
+   node UniqueInt.js
    ```
 
 3. Ensure the input files are in the `sample_inputs` directory and named correctly.
@@ -24,14 +24,14 @@ This project processes a list of integers from a file and generates a result fil
 
 ## Prerequisites
 
-- Install `ts-node` and `typescript` globally:
+Node.js installed on your system.
 
-  ```bash
-  npm install -g ts-node typescript
-  ```
+## Input File Format
 
-## Additional Notes
+The program handles various input formats:
 
-- The input files should contain one integer per line, with valid integers in the range [-1023, 1023].
-- Lines with non-integer values, multiple integers, or empty lines will be skipped.
-- The result file will contain unique integers sorted in ascending order.
+- One integer per line, with valid integers in the range [-1023, 1023].
+- Integers can have whitespace before or after them.
+- Empty lines or lines with only whitespace are skipped.
+- Lines with multiple integers are skipped.
+- Lines with non-integer input (including alphabets, punctuation marks, non-numeric values, floating point numbers) are skipped.
