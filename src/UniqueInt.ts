@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as path from "path";
 
 class UniqueInt {
   private seenNumbers: boolean[] = new Array(2047).fill(false); // Boolean array to track integers in the range [-1023, 1023]
@@ -73,11 +74,26 @@ class UniqueInt {
     fs.writeFileSync(outputFilePath, outputData, "utf-8");
     console.log(`Results written to ${outputFilePath}`);
   }
+
+  // Function to process all files in the input directory
+  processAllFiles(inputDir: string, outputDir: string): void {
+    const files = fs.readdirSync(inputDir);
+
+    files.forEach((file) => {
+      const inputFilePath = path.join(inputDir, file);
+      const outputFilePath = path.join(outputDir, `${file}_results.txt`);
+      console.log(`Processing file: ${file}`);
+
+      // Reset seenNumbers array for each file
+      this.seenNumbers.fill(false);
+
+      this.processFile(inputFilePath, outputFilePath);
+    });
+  }
 }
 
-// Input file path and output file path
+// Input directory and output directory paths
 const uniqueInt = new UniqueInt();
-uniqueInt.processFile(
-  "/dsa/sample_inputs/sample_01.txt",
-  "/dsa/sample_results/sample_01.txt"
-);
+const inputDir = "/dsa/sample_inputs";
+const outputDir = "/dsa/sample_outputs";
+uniqueInt.processAllFiles(inputDir, outputDir);
