@@ -13,7 +13,7 @@ This project processes a list of integers from input files and generates result 
 ## How to Run the Code
 
 1. Navigate to the `dsa/src/` directory.
-2. Run the following command to execute the TypeScript file:
+2. Run the following command to execute the JavaScript file:
 
    ```bash
    node UniqueInt.js
