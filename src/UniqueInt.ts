@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+const fs = require("fs"); // import js lib to handel files in js
+const path = require("path"); // imports js paths (handles The File Path related tasks)
 
 class UniqueInt {
   private seenNumbers: boolean[] = new Array(2047).fill(false); // Boolean array to track integers in the range [-1023, 1023]
