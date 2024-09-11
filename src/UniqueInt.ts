@@ -5,6 +5,7 @@ class UniqueInt {
   private seenNumbers: boolean[] = new Array(2047).fill(false); // Boolean array to track integers in the range [-1023, 1023]
 
   // Main function to process input and output files
+  // Main function to process input and output files
   processFile(inputFilePath: string, outputFilePath: string): void {
     try {
       const inputData = fs.readFileSync(inputFilePath, "utf-8");
@@ -25,7 +26,11 @@ class UniqueInt {
       this.sort(uniqueIntegers); // Sort the unique integers
       this.writeOutputFile(outputFilePath, uniqueIntegers);
     } catch (error) {
-      console.error(`Error processing file: ${error.message}`);
+      if (error instanceof Error) {
+        console.error(`Error processing file: ${error.message}`);
+      } else {
+        console.error(`Unknown error occurred: ${error}`);
+      }
     }
   }
 
