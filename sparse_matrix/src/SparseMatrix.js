@@ -1,5 +1,6 @@
 const fs = require('fs'); // This function call imports the fs module, which provides an API for interacting with the file system (readinf from and writing to files, creating directories, etc)
 
+
 class SparseMatrix {
     constructor(filePath = null, numRows = null, numCols = null) {
         if (filePath) {
@@ -147,4 +148,33 @@ class SparseMatrix {
             console.log(`(${key}): ${value}`);
         }
     }
+
 }
+
+ 
+// Main function to handle user input and call matrix operations
+ const main = () => {
+    const file1 = '../sample_inputs/matrixfile1.txt';
+    const file2 = '../sample_inputs/easy_sample_01_3.txt';
+    const operation = process.argv[2]; // Pass 'add', 'subtract', or 'multiply' via command line
+
+    const matrix1 = new SparseMatrix(file1);
+    const matrix2 = new SparseMatrix(file2);    
+
+    let result;
+
+    if (operation === 'add') {
+        result = matrix1.add(matrix2);
+    } else if (operation === 'subtract') {
+        result = matrix1.subtract(matrix2);
+    } else if (operation === 'multiply') {
+        result = matrix1.multiply(matrix2);
+    } else {
+        throw new Error('Invalid operation. Please use "add", "subtract", or "multiply"');
+        return
+    }
+
+    result.printMatrix();
+};
+
+main();
