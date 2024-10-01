@@ -71,4 +71,28 @@ class SparseMatrix {
             delete this.matrix[`${row},${col}`];
         }
     }
+
+     // Add two sparse matrices
+     add(other) {
+        if (this.numRows !== other.numRows || this.numCols !== other.numCols) {
+            throw new Error("Matrices must have the same dimensions for addition");
+        }
+
+        const result = new SparseMatrix(null, this.numRows, this.numCols);
+
+        // Add non-zero elements from both matrices
+        for (const key in this.matrix) {
+            const [row, col] = key.split(',').map(Number);
+            result.setElement(row, col, this.getElement(row, col) + other.getElement(row, col));
+        }
+
+        for (const key in other.matrix) {
+            const [row, col] = key.split(',').map(Number);
+            if (!result.matrix[`${row},${col}`]) {
+                result.setElement(row, col, other.getElement(row, col));
+            }
+        }
+
+        return result;
+    }
 }
