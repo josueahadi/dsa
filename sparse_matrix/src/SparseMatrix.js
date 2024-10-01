@@ -139,4 +139,12 @@ class SparseMatrix {
 
         return result;
     }
+
+    // Output matrix for debugging (in sparse format)
+    printMatrix() {
+        console.log(`Rows: ${this.numRows}, Cols: ${this.numCols}`);
+        for (const [key, value] of Object.entries(this.matrix)) {
+            console.log(`(${key}): ${value}`);
+        }
+    }
 }
