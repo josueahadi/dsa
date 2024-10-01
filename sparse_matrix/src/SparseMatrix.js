@@ -41,4 +41,20 @@ class SparseMatrix {
             this.setElement(parsed.row, parsed.col, parsed.value);
         }
     }
+
+    // Parse each line in the format (row, col, value)
+    parseLine(line) {
+        const regex = /^\((\d+),\s*(\d+),\s*(-?\d+)\)$/;
+        const match = line.match(regex);
+
+        if (!match) {
+            throw new Error('Input file has wrong format');
+        }
+
+        return {
+            row: parseInt(match[1]),
+            col: parseInt(match[2]),
+            value: parseInt(match[3])
+        };
+    }
 }
