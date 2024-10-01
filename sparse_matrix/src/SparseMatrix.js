@@ -57,4 +57,18 @@ class SparseMatrix {
             value: parseInt(match[3])
         };
     }
+
+    // Get the value at a specific (row, col)
+    getElement(row, col) {
+        return this.matrix[`${row},${col}`] || 0;
+    }
+
+    // Set the value at a specific (row, col)
+    setElement(row, col, value) {
+        if (value !== 0) {
+            this.matrix[`${row},${col}`] = value;
+        } else {
+            delete this.matrix[`${row},${col}`];
+        }
+    }
 }
