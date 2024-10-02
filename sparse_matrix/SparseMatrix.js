@@ -207,12 +207,25 @@ function processInputFile(inputPath) {
 }
 
 function outputResults(outputPath, matrix) {
+    const directory = path.dirname(outputPath); // Extract the directory path
+
+    // Check if the directory exists
+    if (!fs.existsSync(directory)) {
+        // If it doesn't exist, create the directory
+        fs.mkdirSync(directory, { recursive: true });
+        console.log(`Directory "${directory}" did not exist, so it was created.`);
+    }
+
+    // Create the output string for the matrix
     let output = `rows=${matrix.rows}\ncols=${matrix.cols}\n`;
     for (const key in matrix.data) {
         const [row, col] = key.split(',').map(Number);
         output += `(${row}, ${col}, ${matrix.getValue(row, col)})\n`;
     }
+
+    // Write the matrix result to the output file
     fs.writeFileSync(outputPath, output);
+    console.log(`Results saved to ${outputPath}`);
 }
 
 const rl = readline.createInterface({
